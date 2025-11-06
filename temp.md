@@ -161,3 +161,376 @@ console.log(wordFrequencyCount(paragraph));
 4. **Count Occurrences**: Iterates through the array and maintains a frequency count.
 
 This approach efficiently counts word occurrences in O(n) time complexity.
+
+### **1️⃣ Longest Substring Without Repeating Characters**
+
+**Problem:** Determine the length of the longest substring in a given string that contains all unique characters.
+
+**Solution:**
+
+```jsx
+function lengthOfLongestSubstring(s) {
+  let seen = new Map();
+  let start = 0;
+  let maxLength = 0;
+
+  for (let end = 0; end < s.length; end++) {
+    if (seen.has(s[end])) {
+      start = Math.max(seen.get(s[end]) + 1, start);
+    }
+    seen.set(s[end], end);
+    maxLength = Math.max(maxLength, end - start + 1);
+  }
+
+  return maxLength;
+}
+
+// Example usage:
+console.log(lengthOfLongestSubstring("abcabcbb")); // Output: 3 ("abc")
+console.log(lengthOfLongestSubstring("bbbbb"));    // Output: 1 ("b")
+```
+
+**Explanation:** This approach utilizes a sliding window technique with two pointers (`start` and `end`) to track the current substring. A `Map` stores the last seen index of each character. As we iterate through the string, if a character is repeated, we adjust the `start` pointer to ensure all characters in the window are unique.
+
+---
+
+### **2️⃣ Longest Palindromic Substring**
+
+**Problem:** Find the longest substring in a given string that reads the same forward and backward.
+
+**Solution:**
+
+```jsx
+function longestPalindrome(s) {
+  if (s.length < 2) return s;
+
+  let start = 0, maxLength = 1;
+
+  function expandAroundCenter(left, right) {
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+      left--;
+      right++;
+    }
+    return right - left - 1;
+  }
+
+  for (let i = 0; i < s.length; i++) {
+    let len1 = expandAroundCenter(i, i);   // Odd length palindromes
+    let len2 = expandAroundCenter(i, i + 1); // Even length palindromes
+    let len = Math.max(len1, len2);
+
+    if (len > maxLength) {
+      start = i - Math.floor((len - 1) / 2);
+      maxLength = len;
+    }
+  }
+
+  return s.substring(start, start + maxLength);
+}
+
+// Example usage:
+console.log(longestPalindrome("babad")); // Output: "bab" or "aba"
+console.log(longestPalindrome("cbbd"));  // Output: "bb"
+```
+
+**Explanation:** This solution employs the "expand around center" technique. For each character (and each pair of characters for even-length palindromes), it expands outward while the characters on both sides are equal, thus identifying the longest palindromic substring centered at that position.
+
+---
+
+### **3️⃣ String Concatenation**
+
+**Problem:** Demonstrate how to concatenate two or more strings in JavaScript.
+
+**Solution:**
+
+```jsx
+let str1 = "Hello";
+let str2 = "World";
+
+// Using the + operator
+let result1 = str1 + " " + str2;
+console.log(result1); // Output: "Hello World"
+
+// Using the concat() method
+let result2 = str1.concat(" ", str2);
+console.log(result2); // Output: "Hello World"
+```
+
+**Explanation:** In JavaScript, strings can be concatenated using the `+` operator or the `concat()` method. Both methods combine multiple strings into one.
+
+### **1️⃣ Check if Two Strings are Anagrams**
+
+👉 Two words are **anagrams** if they have the same characters in the same frequency but in a different order.
+
+**Example:** `"listen"` and `"silent"` are anagrams.
+
+### **Solution**
+
+```jsx
+const isAnagram = (str1, str2) => {
+  if (str1.length !== str2.length) return false;
+
+  const sortedStr1 = str1.toLowerCase().split("").sort().join("");
+  const sortedStr2 = str2.toLowerCase().split("").sort().join("");
+
+  return sortedStr1 === sortedStr2;
+};
+
+console.log(isAnagram("listen", "silent")); // true
+console.log(isAnagram("hello", "world"));   // false
+```
+
+✅ **Time Complexity:** `O(n log n)` (because of sorting)
+
+✅ **Space Complexity:** `O(n)`
+
+---
+
+## **2️⃣ Reverse a String**
+
+👉 Reverse the given string **without using built-in reverse()**.
+
+### **Solution**
+
+```jsx
+javascript
+CopyEdit
+const reverseString = (str) => {
+  let reversed = "";
+  for (let i = str.length - 1; i >= 0; i--) {
+    reversed += str[i];
+  }
+  return reversed;
+};
+
+console.log(reverseString("hello")); // "olleh"
+
+```
+
+✅ **Time Complexity:** `O(n)`
+
+✅ **Space Complexity:** `O(n)`
+
+---
+
+## **3️⃣ Check if a String is a Palindrome**
+
+👉 A **palindrome** is a word that reads the same forward and backward.
+
+**Example:** `"racecar"`, `"madam"`
+
+### **Solution**
+
+```jsx
+javascript
+CopyEdit
+const isPalindrome = (str) => {
+  return str === str.split("").reverse().join("");
+};
+
+console.log(isPalindrome("racecar")); // true
+console.log(isPalindrome("hello"));   // false
+
+```
+
+✅ **Time Complexity:** `O(n)`
+
+✅ **Space Complexity:** `O(n)`
+
+---
+
+## **4️⃣ Find the First Non-Repeating Character**
+
+👉 Find the **first character that appears only once** in the string.
+
+**Example:** `"swiss"` → **First non-repeating character = `'w'`**
+
+### **Solution**
+
+```jsx
+javascript
+CopyEdit
+const firstNonRepeatingChar = (str) => {
+  const charMap = {};
+
+  for (let char of str) {
+    charMap[char] = (charMap[char] || 0) + 1;
+  }
+
+  for (let char of str) {
+    if (charMap[char] === 1) return char;
+  }
+
+  return null;
+};
+
+console.log(firstNonRepeatingChar("swiss")); // "w"
+console.log(firstNonRepeatingChar("aabbcc")); // null
+
+```
+
+✅ **Time Complexity:** `O(n)`
+
+✅ **Space Complexity:** `O(n)`
+
+---
+
+## **5️⃣ Count Occurrences of Each Character**
+
+👉 Count how many times each character appears in a string.
+
+### **Solution**
+
+```jsx
+javascript
+CopyEdit
+const countCharacterFrequency = (str) => {
+  const frequencyMap = {};
+
+  for (let char of str) {
+    frequencyMap[char] = (frequencyMap[char] || 0) + 1;
+  }
+
+  return frequencyMap;
+};
+
+console.log(countCharacterFrequency("hello"));
+// { h: 1, e: 1, l: 2, o: 1 }
+
+```
+
+✅ **Time Complexity:** `O(n)`
+
+✅ **Space Complexity:** `O(n)`
+
+---
+
+## **6️⃣ Find All Substrings of a String**
+
+👉 Generate **all possible substrings** of a given string.
+
+### **Solution**
+
+```jsx
+javascript
+CopyEdit
+const getAllSubstrings = (str) => {
+  let substrings = [];
+
+  for (let i = 0; i < str.length; i++) {
+    for (let j = i + 1; j <= str.length; j++) {
+      substrings.push(str.substring(i, j));
+    }
+  }
+
+  return substrings;
+};
+
+console.log(getAllSubstrings("abc"));
+// [ 'a', 'ab', 'abc', 'b', 'bc', 'c' ]
+
+```
+
+✅ **Time Complexity:** `O(n²)`
+
+✅ **Space Complexity:** `O(n²)`
+
+---
+
+## **7️⃣ Find the Longest Common Prefix**
+
+👉 Find the **longest prefix** that is common in an array of strings.
+
+**Example:** `["flower", "flow", "flight"]` → **Output: `"fl"`**
+
+### **Solution**
+
+```jsx
+javascript
+CopyEdit
+const longestCommonPrefix = (strs) => {
+  if (!strs.length) return "";
+
+  let prefix = strs[0];
+
+  for (let i = 1; i < strs.length; i++) {
+    while (strs[i].indexOf(prefix) !== 0) {
+      prefix = prefix.slice(0, -1);
+      if (!prefix) return "";
+    }
+  }
+
+  return prefix;
+};
+
+console.log(longestCommonPrefix(["flower", "flow", "flight"])); // "fl"
+console.log(longestCommonPrefix(["dog", "racecar", "car"])); // ""
+
+```
+
+✅ **Time Complexity:** `O(n * m)` (where `n` = number of strings, `m` = length of the shortest string)
+
+✅ **Space Complexity:** `O(1)`
+
+---
+
+## **8️⃣ Find if One String is a Rotation of Another**
+
+👉 Check if one string is a **rotation** of another string.
+
+**Example:** `"waterbottle"` is a rotation of `"erbottlewat"`
+
+### **Solution**
+
+```jsx
+javascript
+CopyEdit
+const isRotation = (s1, s2) => {
+  if (s1.length !== s2.length) return false;
+  return (s1 + s1).includes(s2);
+};
+
+console.log(isRotation("waterbottle", "erbottlewat")); // true
+console.log(isRotation("hello", "llohe")); // true
+console.log(isRotation("hello", "olelh")); // false
+
+```
+
+✅ **Time Complexity:** `O(n)`
+
+✅ **Space Complexity:** `O(n)`
+
+---
+
+## **9️⃣ Find the Most Frequent Character**
+
+👉 Find the character that appears **the most** in a string.
+
+### **Solution**
+
+```jsx
+javascript
+CopyEdit
+const mostFrequentChar = (str) => {
+  const freqMap = {};
+  let maxChar = "", maxCount = 0;
+
+  for (let char of str) {
+    freqMap[char] = (freqMap[char] || 0) + 1;
+    if (freqMap[char] > maxCount) {
+      maxCount = freqMap[char];
+      maxChar = char;
+    }
+  }
+
+  return maxChar;
+};
+
+console.log(mostFrequentChar("aabbbccccd")); // "c"
+
+```
+
+✅ **Time Complexity:** `O(n)`
+
+✅ **Space Complexity:** `O(n)`
+
