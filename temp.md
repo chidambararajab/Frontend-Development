@@ -162,6 +162,9 @@ console.log(wordFrequencyCount(paragraph));
 
 This approach efficiently counts word occurrences in O(n) time complexity.
 
+
+## String Based Problems
+
 ### **1️⃣ Longest Substring Without Repeating Characters**
 
 **Problem:** Determine the length of the longest substring in a given string that contains all unique characters.
@@ -529,6 +532,212 @@ const mostFrequentChar = (str) => {
 console.log(mostFrequentChar("aabbbccccd")); // "c"
 
 ```
+
+✅ **Time Complexity:** `O(n)`
+
+✅ **Space Complexity:** `O(n)`
+
+
+## Array Based Problems
+
+## **1️⃣ Product of Array Except Self**
+
+**Problem:** Given an array of numbers, create a new array where each element at index `i` is the product of all the numbers in the original array except the one at `i`.
+
+**Solution:**
+
+```jsx
+function productExceptSelf(nums) {
+  const length = nums.length;
+  const result = new Array(length).fill(1);
+  let leftProduct = 1;
+  let rightProduct = 1;
+
+  for (let i = 0; i < length; i++) {
+    result[i] *= leftProduct;
+    leftProduct *= nums[i];
+  }
+
+  for (let i = length - 1; i >= 0; i--) {
+    result[i] *= rightProduct;
+    rightProduct *= nums[i];
+  }
+
+  return result;
+}
+
+// Example usage:
+console.log(productExceptSelf([1, 2, 3, 4])); // Output: [24, 12, 8, 6]
+```
+
+**Explanation:** This approach calculates the product of all elements to the left and right of each index without using division, ensuring an efficient solution.
+
+---
+
+## **2️⃣ Find Unique Pairs with Given Sum**
+
+**Problem:** Find the number of unique pairs in an array whose sum equals a given value `k`.
+
+**Solution:**
+
+```jsx
+javascript
+CopyEdit
+function countUniquePairs(nums, k) {
+  const seen = new Set();
+  const pairs = new Set();
+
+  for (const num of nums) {
+    const complement = k - num;
+    if (seen.has(complement)) {
+      const pair = [num, complement].sort((a, b) => a - b);
+      pairs.add(pair.toString());
+    }
+    seen.add(num);
+  }
+
+  return pairs.size;
+}
+
+// Example usage:
+console.log(countUniquePairs([1, 5, 7, -1, 5], 6)); // Output: 2 (Pairs: [1, 5] and [7, -1])
+
+```
+
+**Explanation:** Using a set to track seen numbers and another set to store unique pairs ensures that each pair is counted only once.
+
+---
+
+## **3️⃣ Remove Duplicates from Sorted Array**
+
+**Problem:** Given a sorted array, remove the duplicates in-place such that each element appears only once and return the new length.
+
+**Solution:**
+
+```jsx
+javascript
+CopyEdit
+function removeDuplicates(nums) {
+  if (nums.length === 0) return 0;
+  let uniqueIndex = 0;
+
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[uniqueIndex]) {
+      uniqueIndex++;
+      nums[uniqueIndex] = nums[i];
+    }
+  }
+
+  return uniqueIndex + 1;
+}
+
+// Example usage:
+const nums = [1, 1, 2, 2, 3];
+const length = removeDuplicates(nums);
+console.log(length); // Output: 3
+console.log(nums.slice(0, length)); // Output: [1, 2, 3]
+
+```
+
+**Explanation:** By maintaining a `uniqueIndex`, we can overwrite duplicates and keep only unique elements in the array.
+
+---
+
+## **4️⃣ Merge Intervals**
+
+**Problem:** Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals.
+
+**Solution:**
+
+```jsx
+javascript
+CopyEdit
+function mergeIntervals(intervals) {
+  if (intervals.length <= 1) return intervals;
+
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [intervals[0]];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const last = merged[merged.length - 1];
+    const current = intervals[i];
+
+    if (current[0] <= last[1]) {
+      last[1] = Math.max(last[1], current[1]);
+    } else {
+      merged.push(current);
+    }
+  }
+
+  return merged;
+}
+
+// Example usage:
+console.log(mergeIntervals([[1, 3], [2, 6], [8, 10], [15, 18]]));
+// Output: [[1, 6], [8, 10], [15, 18]]
+
+```
+
+**Explanation:** After sorting the intervals by their start times, we iterate through and merge overlapping intervals by comparing the current interval's start with the last merged interval's end.
+
+---
+
+## **5️⃣ Rotate Array**
+
+**Problem:** Rotate an array to the right by `k` steps, where `k` is non-negative.
+
+**Solution:**
+
+```jsx
+javascript
+CopyEdit
+function rotateArray(nums, k) {
+  k = k % nums.length;
+  reverse(nums, 0, nums.length - 1);
+  reverse(nums, 0, k - 1);
+  reverse(nums, k, nums.length - 1);
+}
+
+function reverse(nums, start, end) {
+  while (start < end) {
+    [nums[start], nums[end]] = [nums[end], nums[start]];
+    start++;
+    end--;
+  }
+}
+
+// Example usage:
+const nums = [1, 2, 3, 4, 5, 6, 7];
+rotateArray(nums, 3);
+console.log(nums); // Output: [5, 6, 7, 1, 2, 3, 4]
+
+```
+
+**Explanation:** This solution involves reversing the entire array, then reversing the first `k` elements, and finally reversing the remaining elements to achieve the desired rotation.
+
+---
+
+### Find Duplicates in array
+
+```jsx
+function findDuplicates(array) {
+  const seen = new Set();
+  const duplicates = [];
+  
+  for (const item of array) {
+    if (seen.has(item)) {
+      duplicates.push(item);
+    } else {
+      seen.add(item);
+    }
+  }
+  
+  return duplicates;
+}
+
+findDuplicates([1, 2, 3, 1, 2, 4, 5]); // [1, 2]
+```
+
 
 ✅ **Time Complexity:** `O(n)`
 
