@@ -1,3 +1,24 @@
+### Find Duplicates in array
+    
+    ```jsx
+    function findDuplicates(array) {
+      const seen = new Set();
+      const duplicates = [];
+      
+      for (const item of array) {
+        if (seen.has(item)) {
+          duplicates.push(item);
+        } else {
+          seen.add(item);
+        }
+      }
+      
+      return duplicates;
+    }
+    
+    findDuplicates([1, 2, 3, 1, 2, 4, 5]); // [1, 2]
+    ```
+
 ### Parenthesis Matching
 
 **Use**: Validating properly nested expressions in code editors, mathematical expressions, or JSON parsers.
